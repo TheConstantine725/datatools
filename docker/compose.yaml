@@ -1,0 +1,17 @@
+services:
+  ducklake_db:
+    container_name: "ducklake_catalog"
+    image: postgres:18.0-alpine3.22
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: ducklake_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-volumes/postgresql:/var/lib/postgresql:rw
+    networks:
+      - ducklake_network
+
+networks:
+  ducklake_network:
