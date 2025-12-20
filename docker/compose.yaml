@@ -12,6 +12,37 @@ services:
       - ./docker-volumes/postgresql:/var/lib/postgresql:rw
     networks:
       - ducklake_network
+  
+  alarik-server:
+    image: ghcr.io/achtungsoftware/alarik:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - API_BASE_URL=http://localhost:8080
+      - CONSOLE_BASE_URL=http://localhost:3000
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+      # - JWT=YOUR_SECURE_JWT_KEY
+      - ALLOW_ACCOUNT_CREATION=false
+    volumes:
+      - ./docker-volumes/alarik-storage:/app/Storage
+    networks:
+      - ducklake_network
+
+  alarik-console:
+    image: ghcr.io/achtungsoftware/alarik-console:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NUXT_PUBLIC_API_BASE_URL=http://localhost:8080
+      - NUXT_PUBLIC_CONSOLE_BASE_URL=http://localhost:3000
+      - NUXT_PUBLIC_ALLOW_ACCOUNT_CREATION=false
+    depends_on:
+      - alarik-server
+    networks:
+      - ducklake_network
 
 networks:
   ducklake_network:
