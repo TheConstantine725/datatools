@@ -10,3 +10,5 @@ wheels/
 .venv
 
 docker/docker-volumes
+.temp
+.ruff_cache

@@ -1,4 +1,6 @@
 from pathlib import Path
 
-DATAPATH = Path("/mnt/e/datalake")
-DATABASES = Path("/mnt/e/.databases")
+TEMP_DLT_OUTPUT = Path.cwd().joinpath(".temp").joinpath("dlt_outputs")
+
+
+def setup(): ...

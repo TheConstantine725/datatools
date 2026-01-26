@@ -1,0 +1,45 @@
+# put your configuration values here
+
+[runtime]
+log_level="WARNING"  # the system log level of dlt
+# use the dlthub_telemetry setting to enable/disable anonymous usage data reporting, see https://dlthub.com/docs/reference/telemetry
+dlthub_telemetry = false
+
+[sources.sql_database]
+table = "view" # please set me up!
+
+[extract]
+workers=16
+max_parallel_items=16
+
+[sources.data_writer]
+buffer_max_items=50000
+file_max_bytes=100_000_000
+disable_compression=true
+
+[data_writer]
+# file_max_items=10000
+file_max_bytes=100_000_000
+disable_compression=false
+
+[normalize]
+# loader_file_format="csv"
+workers=3
+# start_method="spawn"
+
+# [normalize.data_writer]
+# buffer_max_items=10000
+# file_max_bytes=1000000
+# disable_compression=true
+
+
+[load]
+workers=24
+delete_completed_jobs=true
+# truncate_staging_dataset=true
+
+[destination]
+staging_dataset_name_layout="_dlt_staging"
+dataset_name = "dlt_landing"
+replace_strategy="staging-optimized"
+truncate_tables_on_staging_destination_before_load=false
