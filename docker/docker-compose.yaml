@@ -9,7 +9,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker-volumes/postgresql:/var/lib/postgresql:rw
+      # - /mnt/e/docker-volumes/ducklake-compose/pg_ducklake_catalog:/var/lib/postgresql:rw
+      - /mnt/e/docker-volumes/ducklake-compose/pg_ducklake_catalog:/var/lib/postgresql/18/data:rw
     networks:
       - ducklake_network
   data-marts:
@@ -22,7 +23,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - ./docker-volumes/data-marts-postgres:/var/lib/postgresql:rw
+      - /mnt/e/docker-volumes/ducklake-compose/pg_data_marts:/var/lib/postgresql/18/data:rw
     networks:
       - ducklake_network
   
@@ -36,7 +37,7 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - ./docker-volumes/minio/data:/data
+      - /mnt/e/docker-volumes/ducklake-compose/minio/data:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
     healthcheck:

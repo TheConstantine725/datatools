@@ -65,4 +65,4 @@ def rfam_datasource():
         )
     )
 
-    return family, clan, clan_membership, full_region, taxonomy
+    return (family, clan, clan_membership, full_region, taxonomy)
