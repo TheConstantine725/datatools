@@ -40,6 +40,5 @@ delete_completed_jobs=true
 
 [destination]
 staging_dataset_name_layout="_dlt_staging"
-dataset_name = "dlt_landing"
 replace_strategy="staging-optimized"
 truncate_tables_on_staging_destination_before_load=false

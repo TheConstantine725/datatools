@@ -1,29 +1,16 @@
 services:
-  ducklake_db:
+  postgres_warehouse:
     container_name: "ducklake_catalog"
     image: postgres:18.0-alpine3.22
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: ducklake_db
+      POSTGRES_DB: analytics
     ports:
       - "5432:5432"
     volumes:
-      # - /mnt/e/docker-volumes/ducklake-compose/pg_ducklake_catalog:/var/lib/postgresql:rw
-      - /mnt/e/docker-volumes/ducklake-compose/pg_ducklake_catalog:/var/lib/postgresql/18/data:rw
-    networks:
-      - ducklake_network
-  data-marts:
-    container_name: "dest_db"
-    image: postgres:18.0-alpine3.22
-    environment:
-      POSTGRES_USER: analyst
-      POSTGRES_PASSWORD: analyst
-      POSTGRES_DB: analytics
-    ports:
-      - "5434:5432"
-    volumes:
-      - /mnt/e/docker-volumes/ducklake-compose/pg_data_marts:/var/lib/postgresql/18/data:rw
+      - ~/docker-volumes/ducklake/pg_ducklake_catalog:/var/lib/postgresql:rw
+      # - /mnt/e/docker-volumes/ducklake/postgres_warehouse:/var/lib/postgresql/18/data:rw
     networks:
       - ducklake_network
   
@@ -37,7 +24,7 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - /mnt/e/docker-volumes/ducklake-compose/minio/data:/data
+      - ~/docker-volumes/ducklake/minio/data:/data:rw
     command: server /data --console-address ":9001"
     restart: unless-stopped
     healthcheck:
@@ -48,38 +35,5 @@ services:
     networks:
       - ducklake_network
 
-    
-  # rustfs:
-  #   container_name: rustfs
-  #   image: quay.io/rustfs/rustfs:latest
-  #   ports:
-  #         - "9000:9000" # S3 API port
-  #         - "9001:9001" # Console port
-  #   environment:
-  #     - RUSTFS_ROOT_USER=rustfsadmin
-  #     - RUSTFS_ROOT_PASSWORD=rustfsadmin
-  #     - RUSTFS_ADDRESS=:9000
-  #     - RUSTFS_CONSOLE_ADDRESS=:9001
-  #     - RUSTFS_CONSOLE_ENABLE=true
-  #     - RUSTFS_LOG=warn
-  #   volumes:
-  #     - ./docker-volumes/rustfs/data/pro:/data
-  #     - ./docker-volumes/rustfs/logs:/app/logs
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test:
-  #       [
-  #         "CMD",
-  #         "sh", "-c",
-  #         "curl -f http://localhost:9000/health && curl -f http://localhost:9001/rustfs/console/health"
-  #       ]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 40s
-  #   networks:
-  #     - ducklake_network
-
-
 networks:
-  ducklake_network:
+  ducklake_network:  
