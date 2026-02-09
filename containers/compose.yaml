@@ -9,22 +9,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ~/docker-volumes/ducklake/pg_ducklake_catalog:/var/lib/postgresql:rw
-      # - /mnt/e/docker-volumes/ducklake/postgres_warehouse:/var/lib/postgresql/18/data:rw
+      - postgres-catalog:/var/lib/postgresql:rw
     networks:
       - ducklake_network
-  
+
   object-storage:
     container_name: "minio"
     image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
     ports:
-      - "9000:9000"      # API port
-      - "9001:9001"      # Console/Web UI port
+      - "9000:9000" # API port
+      - "9001:9001" # Console/Web UI port
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - ~/docker-volumes/ducklake/minio/data:/data:rw
+      - minio-data:/data:rw
     command: server /data --console-address ":9001"
     restart: unless-stopped
     healthcheck:
@@ -36,4 +35,8 @@ services:
       - ducklake_network
 
 networks:
-  ducklake_network:  
+  ducklake_network:
+
+volumes:
+  postgres-catalog:
+  minio-data:

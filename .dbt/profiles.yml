@@ -3,7 +3,7 @@ transformation:
   outputs:
     dev:
       type: duckdb
-      path: '/mnt/e/.databases/normalized.duckdb'
+      path: "/mnt/e/.databases/normalized.duckdb"
       schema: analytics
       threads: 2
       extensions:
@@ -28,10 +28,6 @@ transformation:
             type: postgres
             secret: reporting
       attach:
-        - path: "/mnt/e/.databases/tpch.duckdb"
-          alias: tpch
-        # - path: "/mnt/e/.databases/normalized.duckdb"
-        #   alias: normalized
         - path: "ducklake:ducklake"
           alias: ducklake
         - path: ""
@@ -44,4 +40,3 @@ transformation:
         s3_secret_access_key: minioadmin
         s3_use_ssl: false
         s3_url_style: "path"
-      
