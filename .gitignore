@@ -8,7 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+.temp
+.tmp
+.ruff_cache
 
 docker/docker-volumes
-.temp
-.ruff_cache

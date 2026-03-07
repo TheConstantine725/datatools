@@ -10,8 +10,7 @@ def _():
     import deltalake
     import polars as pl
     from pathlib import Path
-    import dotenv
-    return Path, mo
+    return Path, deltalake, mo
 
 
 @app.cell
@@ -25,20 +24,23 @@ def _(mo):
 
 
 @app.cell
-def _(Path, order_products):
+def _(Path):
     def load_to_deltalake(provide_table_path: str):
-        bucket_path = Path("../.temp/deltalake")
-        return bucket_path.joinpath(provide_table_path).absolute()
-
-
-    order_products.head()
+        bucket_path = Path("/mnt/d/datalake/bucket/deltalake")
+        return bucket_path.joinpath(provide_table_path).absolute().as_uri()
     return (load_to_deltalake,)
 
 
 @app.cell
-def _(load_to_deltalake, order_products):
+def _(deltalake, load_to_deltalake, order_products):
     order_products.write_delta(
-        target=load_to_deltalake("order_products"), mode="overwrite"
+        target=load_to_deltalake("order_products"),
+        mode="overwrite",
+        delta_write_options={
+            "writer_properties": deltalake.WriterProperties(
+                compression="zstd", compression_level=22
+            )
+        },
     )
     return
 
