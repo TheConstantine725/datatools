@@ -38,7 +38,7 @@ def _(deltalake, load_to_deltalake, order_products):
         mode="overwrite",
         delta_write_options={
             "writer_properties": deltalake.WriterProperties(
-                compression="zstd", compression_level=22
+                compression="zstd", compression_level=14
             )
         },
     )
