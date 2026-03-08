@@ -6,9 +6,9 @@ readme = "README.md"
 authors = [
     { name = "Konstantinos Dimos", email = "konstadimos7@gmail.com" }
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
-    "duckdb==1.3.2",
+    "duckdb>=1.4.4",
     "ibis>=3.3.0",
     "pandas>=2.3.3",
     "polars>=1.35.2",
@@ -20,20 +20,24 @@ dependencies = [
     "python-dotenv>=1.2.1",
     "dlt[duckdb,ducklake,s3]>=1.20.0",
     "pymysql>=1.1.2",
+<<<<<<< HEAD
     "dagster>=1.12.15",
     "dagster-webserver>=1.12.15",
     "dagster-dg-cli>=1.12.15",
+=======
+    "datafusion>=50.1.0",
+>>>>>>> a67a7f6e81461fa1adfda4fd178e91a223c4ffdd
 ]
 
 [project.scripts]
 datatools = "datatools:main"
+delta-ingest = "delta_ingest:hello"
 
 [build-system]
-requires = ["uv_build>=0.9.3,<0.10.0"]
-build-backend = "uv_build"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
     "marimo>=0.18.4",
-    "jupyterlab"
 ]

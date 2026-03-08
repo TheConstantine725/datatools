@@ -1,0 +1,4 @@
+import deltalake
+
+def main():
+    ...
