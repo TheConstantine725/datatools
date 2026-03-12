@@ -1,12 +1,13 @@
 import dlt
 from dlt.destinations.impl.ducklake.configuration import DUCKLAKE_STORAGE_PATTERN
-from delta_ingest import hello
+from delta_ingest import hello as dingest
+from orchestrator.tasker import Registry
 
 from datatools.elt import ducklake_pipeline, rfam_datasource
 
 
 def main():
-    hello()
+    registry = Registry()
 
 
 if __name__ == "__main__":
