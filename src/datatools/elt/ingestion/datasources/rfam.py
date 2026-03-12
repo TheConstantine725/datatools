@@ -1,6 +1,5 @@
 import dlt
 from dlt.sources.sql_database import sql_table
-from sqlalchemy import create_engine
 
 
 @dlt.source(name="rfam_data")
@@ -65,4 +64,4 @@ def rfam_datasource():
         )
     )
 
-    return (family, clan, clan_membership, full_region, taxonomy)
+    return (family, clan, clan_membership, taxonomy)

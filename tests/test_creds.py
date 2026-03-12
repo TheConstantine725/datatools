@@ -3,7 +3,7 @@ from dlt.destinations.impl.ducklake.configuration import DUCKLAKE_STORAGE_PATTER
 from delta_ingest import hello as dingest
 from orchestrator.tasker import Registry
 
-from datatools.elt import ducklake_pipeline, rfam_datasource
+from delta_ingest import hello
 
 
 def main():
