@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.20.4"
 app = marimo.App(width="full")
 
 
@@ -10,24 +10,50 @@ def _():
     import deltalake
     import polars as pl
     from pathlib import Path
+
     return Path, deltalake, mo
 
 
 @app.cell
+def _(Path):
+    base = Path("/run/media/kostas/HDD 1/.data")
+    databases = base.joinpath("databases")
+    datalake = base.joinpath("datalake")
+    print(databases)
+    print(datalake)
+
+    for _ in databases.iterdir():
+        print(_)
+    return (datalake,)
+
+
+@app.cell(hide_code=True)
 def _(mo):
-    order_products = mo.sql(
+    _df = mo.sql(
         f"""
-        select * from read_csv('/mnt/d/datalake/bucket/groceries/order_products__train.csv');
+        attach '/run/media/kostas/HDD 1/.data/databases/tpch.duckdb' as tpch;
+        use tpch;
         """
     )
-    return (order_products,)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    _df = mo.sql(
+        f"""
+        select * from main.lineitem;
+        """
+    )
+    return
 
 
 @app.cell
-def _(Path):
+def _(datalake):
     def load_to_deltalake(provide_table_path: str):
-        bucket_path = Path("/mnt/d/datalake/bucket/deltalake")
-        return bucket_path.joinpath(provide_table_path).absolute().as_uri()
+        bucket_path = datalake.joinpath("deltalake")
+        return bucket_path.joinpath(provide_table_path).absolute()
+
     return (load_to_deltalake,)
 
 

@@ -24,6 +24,8 @@ dependencies = [
     # "dagster-webserver>=1.12.15",
     # "dagster-dg-cli>=1.12.15",
     "datafusion>=50.1.0",
+    "marimo>=0.20.4",
+    "ruff>=0.15.6",
 ]
 
 [project.scripts]
