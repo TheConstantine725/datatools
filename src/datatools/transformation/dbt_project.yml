@@ -18,8 +18,8 @@ macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
 clean-targets: # directories to be removed by `dbt clean`
-  - "target"
-  - "dbt_packages"
+    - "target"
+    - "dbt_packages"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -28,36 +28,26 @@ clean-targets: # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-  transformation:
-    # Config indicated by + and applies to all files under models/example/
-    kaggle_retails:
-      staging:
-        +materialized: view
-      normalization:
-        +materialized: ephemeral
-      marts:
-        +materialized: table
-        warehouse:
-          +schema: warehouse
-        
-    tpch:
-      staging:
-        # +database: normalized
-        +materialized: view
-      normalization:
-        # +database: normalized
-        +materialized: ephemeral
-      marts:
-        +materialized: table
-    # rfam:
-    #   landing:
-    #     +database: ducklake
-    #     +materialized: ephemeral
-    #   normalization:
-    #     +database: ducklake
-    #     +materialized: table
-    #   service:
-    #     +database: reporting
-    #     +schema: rfam
-    #     +materialized: table
+    transformation:
+        # Config indicated by + and applies to all files under models/example/
+        kaggle_retails:
+            staging:
+                +schema: kaggle_staging
+                +materialized: view
+            normalization:
+                +materialized: ephemeral
+            marts:
+                +materialized: table
+                warehouse:
+                    +schema: warehouse
 
+        tpch:
+            staging:
+                +schema: tpch_staging
+                +materialized: view
+            normalization:
+                +materialized: ephemeral
+            marts:
+                +materialized: table
+                warehouse:
+                    +schema: warehouse
