@@ -1,4 +1,0 @@
-import deltalake
-
-def main():
-    ...
