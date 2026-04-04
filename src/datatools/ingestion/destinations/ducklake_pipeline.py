@@ -9,8 +9,10 @@ def ducklake_pipeline(pipeline_name: str):
     from dlt.destinations.impl.ducklake.configuration import DuckLakeCredentials
 
     credentials = DuckLakeCredentials(
-        **dlt.secrets["destination.local_ducklake.credentials"]
+        **dlt.secrets["destination.ducklake.credentials"]
     )
+    print(ducklake_name:=credentials["ducklake_name"])
+
 
     pipeline = dlt.pipeline(
         pipeline_name=pipeline_name,
@@ -25,11 +27,6 @@ def ducklake_pipeline(pipeline_name: str):
 
     with pipeline.sql_client() as client:
         conn: DuckDBPyConnection = client.native_connection
-        conn.sql("call local_ducklake.set_option('parquet_compression', 'zstd');")
-        conn.sql("call local_ducklake.set_option('parquet_compression_level', 16);")
-        conn.sql("call local_ducklake.set_option('parquet_version', 2);")
-        conn.sql("call local_ducklake.set_option('rewrite_delete_threshold', 0.60);")
-        conn.sql("call local_ducklake.set_option('delete_older_than', '7 days');")
-        conn.sql("call local_ducklake.set_option('expire_older_than', '7 days');")
+        conn.sql("from ")
 
     return pipeline

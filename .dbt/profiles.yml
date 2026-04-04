@@ -1,10 +1,8 @@
 transformation:
-<<<<<<< HEAD
   target: dev
   outputs:
     dev:
       type: duckdb
-      path: "~/projects/databases/normalized.duckdb"
       schema: analytics
       threads: 8
       extensions:
@@ -14,75 +12,41 @@ transformation:
         - postgres
       secrets:
         - type: postgres
-          name: reporting
+          name: catalogs
           host: "127.0.0.1"
           port: 5432
           user: admin
           password: admin
-          database: analytics
-        # - type: ducklake
-        #   name: ducklake
-        #   metadata_path: ""
-        #   metadata_schema: "ducklake"
-        #   data_path: "s3://ducklake"
-        #   metadata_parameters:
-        #     type: postgres
-        #     secret: reporting
+          database: ducklake
+        - type: ducklake
+          name: test_ducklake_secret
+          metadata_path: ""
+          metadata_schema: "test_v0_4"
+          # data_path: "s3://ducklake" #
+          metadata_parameters:
+            type: postgres
+            secret: catalogs
+        - type: ducklake
+          name: ingestion_ducklake_secret
+          metadata_path: ""
+          metadata_schema: "ingestion_v0_4"
+          # data_path: "s3://ducklake"
+          metadata_parameters:
+            type: postgres
+            secret: catalogs
       attach:
-        # - path: "ducklake:ducklake"
-        #   alias: ducklake
-        #   is_ducklake: true
-        - path: ""
-          type: postgres
-          secret: reporting
-          alias: reporting
+        - path: "ducklake:test_ducklake_secret"
+          alias: test_ducklake
+          is_ducklake: true
+        - path: "ducklake:ingestion_ducklake_secret"
+          alias: ingestion_ducklake
+          is_ducklake: true
+        - path: "duckdb:/mnt/d/.data/databases/tpch.duckdb"
+          alias: tpch
+      database: test_ducklake
       settings:
-        s3_endpoint: "http://127.0.0.1:9000"
+        s3_endpoint: "127.0.0.1:9000"
         s3_access_key_id: minioadmin
         s3_secret_access_key: minioadmin
         s3_use_ssl: false
         s3_url_style: "path"
-=======
-    target: dev
-    outputs:
-        dev:
-            type: duckdb
-            path: "/mnt/e/.databases/normalized.duckdb"
-            schema: analytics
-            threads: 4
-            extensions:
-                - httpfs
-                - parquet
-                - ducklake
-                - postgres
-                - delta
-            secrets:
-                - type: postgres
-                  name: reporting
-                  host: "127.0.0.1"
-                  port: 5432
-                  user: admin
-                  password: admin
-                  database: analytics
-                - type: ducklake
-                  name: ducklake
-                  metadata_path: ""
-                  metadata_schema: "ducklake"
-                  data_path: "s3://ducklake"
-                  metadata_parameters:
-                      type: postgres
-                      secret: reporting
-            attach:
-                - path: "ducklake:ducklake"
-                  alias: ducklake
-                - path: ""
-                  type: postgres
-                  secret: reporting
-                  alias: reporting
-            settings:
-                s3_endpoint: "http://127.0.0.1:9000"
-                s3_access_key_id: minioadmin
-                s3_secret_access_key: minioadmin
-                s3_use_ssl: false
-                s3_url_style: "path"
->>>>>>> a67a7f6e81461fa1adfda4fd178e91a223c4ffdd

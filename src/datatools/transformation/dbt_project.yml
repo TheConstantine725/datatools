@@ -30,7 +30,25 @@ clean-targets: # directories to be removed by `dbt clean`
 models:
   transformation:
     # Config indicated by + and applies to all files under models/example/
-
+    kaggle_retails:
+      staging:
+        +materialized: view
+      normalization:
+        +materialized: ephemeral
+      marts:
+        +materialized: table
+        warehouse:
+          +schema: warehouse
+        
+    tpch:
+      staging:
+        # +database: normalized
+        +materialized: view
+      normalization:
+        # +database: normalized
+        +materialized: ephemeral
+      marts:
+        +materialized: table
     # rfam:
     #   landing:
     #     +database: ducklake
@@ -43,13 +61,3 @@ models:
     #     +schema: rfam
     #     +materialized: table
 
-    transformation:
-      staging:
-        # +database: normalized
-        +materialized: view
-      normalization:
-        # +database: normalized
-        +materialized: table
-      marts:
-        +database: reporting
-        +materialized: table
