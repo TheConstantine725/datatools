@@ -26,6 +26,7 @@ dependencies = [
     "datafusion>=50.1.0",
     "marimo>=0.22.0",
     "ruff>=0.15.6",
+    "chdb>=4.1.6",
 ]
 
 [project.scripts]
