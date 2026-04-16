@@ -11,25 +11,19 @@ services:
         volumes:
             - postgres-catalog:/var/lib/postgresql
 
-    object-storage:
-        container_name: "minio"
-        image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    rustfs:
+        container_name: rustfs
+        image: rustfs/rustfs:latest
+        volumes:
+            - rustfs:/data
+        environment:
+            RUSTFS_CONSOLE_ENABLE: true
+            RUSTFS_ACCESS_KEY: rustfsadmin
+            RUSTFS_SECRET_KEY: rustfsadmin
         ports:
             - "9000:9000" # API port
             - "9001:9001" # Console/Web UI port
-        environment:
-            MINIO_ROOT_USER: minioadmin
-            MINIO_ROOT_PASSWORD: minioadmin
-        volumes:
-            - minio-data:/data
-        command: server /data --console-address ":9001"
-        restart: unless-stopped
-        healthcheck:
-            test:
-                ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-            interval: 30s
-            timeout: 20s
-            retries: 3
+        command: /data
 
     clickhouse-server:
         image: clickhouse/clickhouse-server:latest
@@ -48,16 +42,8 @@ services:
             CLICKHOUSE_USER: default
             CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
 
-    # starrocks:
-    #     image: starrocks/allin1-ubuntu:latest
-    #     container_name: starrocks
-    #     ports:
-    #         - "9030:9030"
-    #         - "8030:8030"
-    #         - "8040:8040"
-
 volumes:
     postgres-catalog:
-    minio-data:
+    rustfs:
     clickhouse-data:
     clickhouse-logs:

@@ -1,21 +1,17 @@
 sources:
-  - name: tpch
-    database: tpch
-    schema: main
-    tables:
-      - name: customer
-      - name: lineitems
-      - name: orders
-      - name: nation
-  
-  - name: kaggle_retails
-    meta:
-      external_location: "s3://datalake/{name}.csv"
-    tables:
-      - name: sales
-      - name: product_hierarchy 
-      - name: store_cities
+    - name: tpch
+      database: tpch
+      schema: main
+      tables:
+          - name: customer
+          - name: lineitems
+          - name: orders
+          - name: nation
 
-    
-  
-
+    # - name: kaggle_retails
+    #   meta:
+    #     external_location: "s3://datalake/{name}.csv"
+    #   tables:
+    #     - name: sales
+    #     - name: product_hierarchy
+    #     - name: store_cities

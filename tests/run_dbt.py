@@ -19,8 +19,6 @@ def main():
         ]
 
     run_args = ["run",
-        "--select",
-        "@kaggle_retails",
         "--target",
         TARGET,
         "--project-dir",
@@ -30,17 +28,17 @@ def main():
         "--log-level",
         "info",
         ]
-    
+
     generic_runner = dbtRunner()
-    
+
     debug_run_result: dbtRunnerResult= generic_runner.invoke(debug_args)
-    print(debug_run_result.result)
-    
-        
+    generic_runner.invoke(run_args)
 
 
 
-    
+
+
+
 
 
 if __name__ == "__main__":

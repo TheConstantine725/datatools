@@ -12,6 +12,8 @@ wheels/
 .tmp
 .ruff_cache
 .databases
+.dlt/output
 
+# Container Volumes
 docker/docker-volumes
 containers/volumes
