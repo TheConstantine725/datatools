@@ -4,6 +4,7 @@ from typing import TypeVar, Generic
 
 T = TypeVar("T")
 
+
 class Result(Generic[T]):
     def is_success(self):
         if isinstance(self, Success):
@@ -13,7 +14,7 @@ class Result(Generic[T]):
         if isinstance(self, Failure):
             return True
 
-    def unwrap(self) -> T|None:
+    def unwrap(self) -> T | None:
         if self.is_success():
             return self.value
         raise ValueError(self.error)
@@ -27,6 +28,7 @@ class Result(Generic[T]):
 @dataclass
 class Success(Result[T]):
     value: T
+
 
 @dataclass
 class Failure(Result):

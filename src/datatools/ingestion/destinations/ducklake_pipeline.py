@@ -17,7 +17,7 @@ def test_if_setup(duck: DuckDBPyConnection, ducklake_name: str):
         return True
 
 
-def config_ducklake(duck: DuckDBPyConnection,  ducklake_name: str):
+def config_ducklake(duck: DuckDBPyConnection, ducklake_name: str):
     configs = dlt.secrets[f"destination.ducklake.ingestion.config"]
     result = None
     for key, value in configs.items():
@@ -71,7 +71,6 @@ def ducklake_pipeline():
     import dlt
     from dlt.destinations.impl.ducklake.configuration import DuckLakeCredentials
     from duckdb import DuckDBPyConnection
-
 
     dlt_output = Path.cwd().joinpath(".dlt/output")
 

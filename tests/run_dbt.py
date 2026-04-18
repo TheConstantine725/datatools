@@ -1,11 +1,13 @@
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 from pathlib import Path
 
+
 def main():
     TARGET = "dev"
     _path = Path.cwd().joinpath(".dbt").absolute().as_posix()
 
-    debug_args = ["debug",
+    debug_args = [
+        "debug",
         # "--select",
         # "@kaggle_retails",
         "--target",
@@ -16,9 +18,10 @@ def main():
         f"{_path}",
         "--log-level",
         "info",
-        ]
+    ]
 
-    run_args = ["run",
+    run_args = [
+        "run",
         "--target",
         TARGET,
         "--project-dir",
@@ -27,18 +30,12 @@ def main():
         f"{_path}",
         "--log-level",
         "info",
-        ]
+    ]
 
     generic_runner = dbtRunner()
 
-    debug_run_result: dbtRunnerResult= generic_runner.invoke(debug_args)
+    debug_run_result: dbtRunnerResult = generic_runner.invoke(debug_args)
     generic_runner.invoke(run_args)
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
