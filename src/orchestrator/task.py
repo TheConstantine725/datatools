@@ -36,6 +36,7 @@ class Task:
         self.depends_on = depends_on
         self.args = args
         self.retry_attempts = retry_attempts
+        self.execution_check = False
 
     @property
     def hash(self):
@@ -82,8 +83,10 @@ class Task:
             else:
                 print(f"Storing Result Output: {self.task_name=}")
                 self.output = temp_output
-                return temp_output
+                self.execution_check = True
+                return self
         else:
+            self.execution_check = True
             raise ValueError(f"Could not execute the task: {self.task_name}")
 
 
@@ -95,14 +98,16 @@ class Flow:
     ):
         self.flow_name = flow_name
         self.flow_description = flow_description
-        self.tasks: Dict[str, Task] = dict()
+        self.pending_tasks: Dict[str, Task] = dict()
         self.task_dependency_map: Dict[str, set[str]] = dict()
         self.execution_queue = Queue(-1)
         self.task_results = dict()
+        self.completed: dict[str, Task] = dict()
+        self.failed: dict[str, Task] = dict()
 
     def add_task(self, task: Task):
         try:
-            self.tasks[task.task_name] = task
+            self.pending_tasks[task.task_name] = task
             self.task_results[task.task_name] = None
             if task.depends_on is None:
                 self.task_dependency_map[task.task_name] = set()
@@ -130,12 +135,16 @@ class Flow:
     def execute(self):
         self.__sort_tasks()
         while not self.execution_queue.empty():
+            taskname = self.execution_queue.get()
+            task = self.pending_tasks[taskname]
             try:
-                taskname = self.execution_queue.get()
-                result = self.tasks[taskname].execute()
+
+                result = task.execute()
             except Exception as error:
                 print(error)
+                self.failed[taskname] = task
             else:
                 self.task_results[taskname] = result
+                self.completed[taskname] = task
             finally:
-                sleep(2)
+                sleep(1)
