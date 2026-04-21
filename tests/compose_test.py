@@ -18,7 +18,6 @@ def starting_addition(x):
 
 
 def add(x):
-
     print(result := 5 + x)
     return result
 
