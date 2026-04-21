@@ -6,7 +6,6 @@ from typing import (
     Any,
     List,
     Tuple,
-    TypeVar,
     Optional,
     Dict,
     override,
@@ -14,8 +13,6 @@ from typing import (
 from hashlib import sha256
 from time import sleep
 from queue import Queue
-
-T = TypeVar("T")
 
 type ArgsTuple[Any] = Union[List[Any], Tuple[Any]]
 
@@ -138,7 +135,6 @@ class Flow:
             taskname = self.execution_queue.get()
             task = self.pending_tasks[taskname]
             try:
-
                 result = task.execute()
             except Exception as error:
                 print(error)
