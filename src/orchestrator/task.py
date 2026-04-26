@@ -1,7 +1,9 @@
 from graphlib import TopologicalSorter
+import traceback
 from typing import (
     Callable,
     Sequence,
+    Set,
     Union,
     Any,
     List,
@@ -10,7 +12,7 @@ from typing import (
     Dict,
     override,
 )
-from hashlib import sha256
+from hashlib import sha1, sha256
 from time import sleep
 from queue import Queue
 
@@ -24,7 +26,7 @@ class Task:
         task_description: Optional[str],
         action: Callable,
         args: ArgsTuple | dict[str, Any] | None,
-        depends_on: "str" | Sequence["str"] | None = None,
+        depends_on: "str" | tuple["str"] | set["str"] | list["str"] | None = None,
         retry_attempts: int = 3,
     ):
         self.task_name = task_name
@@ -97,42 +99,54 @@ class Flow:
         self.flow_description = flow_description
         self.pending_tasks: Dict[str, Task] = dict()
         self.task_dependency_map: Dict[str, set[str]] = dict()
-        self.execution_queue = Queue(-1)
         self.task_results = dict()
         self.completed: dict[str, Task] = dict()
         self.failed: dict[str, Task] = dict()
+
+    @property
+    def hashname(self,):
+        return sha1(self.flow_name.encode()).hexdigest()
+
+    @override
+    def __hash__(self):
+        return hash(self.flow_name)
+
+    def _settify_depending_tasks(self, task: Task) -> Set[str]:
+        if task.depends_on is None:
+            return set()
+        elif isinstance(task.depends_on, str):
+            return {task.depends_on}
+        elif isinstance(task.depends_on, set):
+            return task.depends_on
+        elif isinstance(task.depends_on, (list, tuple)):
+            return set(task.depends_on)
 
     def add_task(self, task: Task):
         try:
             self.pending_tasks[task.task_name] = task
             self.task_results[task.task_name] = None
-            if task.depends_on is None:
-                self.task_dependency_map[task.task_name] = set()
-            elif isinstance(task.depends_on, str):
-                self.task_dependency_map[task.task_name] = set(task.depends_on)
-            elif isinstance(task.depends_on, Sequence):
-                setter: set[str] = set()
-                for temp in tuple(task.depends_on):
-                    setter.add(temp)
-                self.task_dependency_map[task.task_name] = setter
+            self.task_dependency_map[task.task_name] = self._settify_depending_tasks(
+                task
+            )
         except Exception as error:
             print(f"Error when adding {task.task_name}")
             print(error)
         else:
             return self
 
-    def __sort_tasks(self):
+    def _prepare_execution_queue(self) -> Queue[str]:
+        execution_queue = Queue(-1)
         sorter = TopologicalSorter()
         for node, deps in self.task_dependency_map.items():
             sorter.add(node, *deps)
         for taskname in sorter.static_order():
-            self.execution_queue.put(taskname)
-        return self
+            execution_queue.put(taskname)
+        return execution_queue
 
     def execute(self):
-        self.__sort_tasks()
-        while not self.execution_queue.empty():
-            taskname = self.execution_queue.get()
+        exec_queue = self._prepare_execution_queue()
+        while not exec_queue.empty():
+            taskname = exec_queue.get()
             task = self.pending_tasks[taskname]
             try:
                 result = task.execute()

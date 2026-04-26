@@ -23,6 +23,7 @@ dependencies = [
     # "dagster-webserver>=1.12.15",
     # "dagster-dg-cli>=1.12.15",
     "marimo>=0.22.0",
+    "schedule>=1.2.2",
 ]
 
 [project.scripts]
