@@ -4,11 +4,4 @@ from queue import Queue
 
 TaskQueue = Queue(-1)
 
-__all__ = [
-    "Task",
-    "Flow",
-    "Failure",
-    "Success",
-    "Result",
-    "TaskQueue"
-]
+__all__ = ["Task", "Flow", "Failure", "Success", "Result", "TaskQueue"]

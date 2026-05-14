@@ -6,16 +6,27 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
-    import marimo as mo
-    import deltalake
-    import polars as pl
-    from pathlib import Path
+    from pyspark.sql import SparkSession
 
+    return (SparkSession,)
+
+
+@app.cell
+def _(SparkSession):
+    spark = SparkSession.builder.getOrCreate()
+    return (spark,)
+
+
+@app.cell
+def _(spark):
+    spark.sql(""" select 1 as  one """)
     return
 
 
 @app.cell
 def _():
+    import marimo as mo
+
     return
 
 

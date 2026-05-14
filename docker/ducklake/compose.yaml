@@ -1,0 +1,35 @@
+services:
+    postgres_warehouse:
+        container_name: "ducklake_catalog"
+        image: postgres:18.0-alpine3.22
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: ducklake
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres-data:/var/lib/postgresql
+
+    object-storage:
+        container_name: rustfs
+        image: rustfs/rustfs:latest
+        volumes:
+            - /mnt/e/docker_volumes/rustfs/data:/data
+        environment:
+            RUSTFS_CONSOLE_ENABLE: true
+            RUSTFS_ACCESS_KEY: admin
+            RUSTFS_SECRET_KEY: admin
+        ports:
+            - "9000:9000" # API port
+            - "9001:9001" # Console/Web UI port
+        command: /data
+
+    metabase:
+        image: metabase/metabase
+        container_name: metabase
+        ports:
+            - "3000:3000"
+
+volumes:
+    postgres-data:

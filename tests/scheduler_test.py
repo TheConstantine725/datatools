@@ -3,6 +3,7 @@ from threading import Lock
 from typing import Self
 from orchestrator.task import Flow
 
+
 class Registry:
     with Lock():
         _instance = None
@@ -22,5 +23,4 @@ class Registry:
 
 
 class Scheduler:
-
     pass

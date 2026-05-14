@@ -1,0 +1,37 @@
+services:
+    rustfs:
+        container_name: rustfs
+        image: rustfs/rustfs:latest
+        volumes:
+            - /mnt/e/docker_volumes/rustfs/data:/data
+        environment:
+            RUSTFS_CONSOLE_ENABLE: true
+            RUSTFS_ACCESS_KEY: admin
+            RUSTFS_SECRET_KEY: admin
+        ports:
+            - "9000:9000" # API port
+            - "9001:9001" # Console/Web UI port
+        command: /data
+
+    clickhouse-server:
+        image: clickhouse/clickhouse-server:latest
+        container_name: clickhouse
+        ports:
+            - "8123:8123"
+            - "9002:9000"
+        ulimits:
+            nofile:
+                soft: 262144
+                hard: 262144
+        volumes:
+            - /mnt/e/docker_volumes/clickhouse/data:/var/lib/clickhouse
+            - /mnt/e/docker_volumes/clickhouse/logs:/var/log/clickhouse-server
+        environment:
+            CLICKHOUSE_USER: ch_admin
+            CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+
+    metabase:
+        image: metabase/metabase
+        container_name: metabase
+        ports:
+            - "3000:3000"

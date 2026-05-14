@@ -104,7 +104,9 @@ class Flow:
         self.failed: dict[str, Task] = dict()
 
     @property
-    def hashname(self,):
+    def hashname(
+        self,
+    ):
         return sha1(self.flow_name.encode()).hexdigest()
 
     @override

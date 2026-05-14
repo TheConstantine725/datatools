@@ -6,29 +6,25 @@ readme = "README.md"
 authors = [
     { name = "Konstantinos Dimos", email = "konstadimos7@gmail.com" }
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
     "duckdb>=1.5.2",
     "pandas>=2.3.3",
     "polars>=1.35.2",
-    "pyarrow<=18.0.0",
     "deltalake",
     "sqlalchemy",
     "dbt-core>=1.10.15",
     "dbt-duckdb>=1.10.0",
     "python-dotenv>=1.2.1",
-    "dlt[duckdb,ducklake,s3]>=1.20.0",
+    "dlt[duckdb,ducklake,filesystem,s3,deltalake]>=1.20.0",
     "pymysql>=1.1.2",
-    # "dagster>=1.12.15",
-    # "dagster-webserver>=1.12.15",
-    # "dagster-dg-cli>=1.12.15",
     "marimo>=0.22.0",
-    "schedule>=1.2.2",
+    "pyspark>=4.1.1",
+    "pyarrow>=18.0.0",
 ]
 
 [project.scripts]
 datatools = "datatools:main"
-delta-ingest = "delta_ingest:hello"
 
 [build-system]
 requires = ["hatchling"]

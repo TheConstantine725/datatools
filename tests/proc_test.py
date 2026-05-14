@@ -4,9 +4,9 @@ from orchestrator import TaskQueue
 from time import sleep
 
 
-
 def func_1():
     TaskQueue.put("Hail Mary")
+
 
 def func_2():
     value = TaskQueue.get()
