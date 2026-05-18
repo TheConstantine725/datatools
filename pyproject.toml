@@ -18,7 +18,7 @@ dependencies = [
     "python-dotenv>=1.2.1",
     "dlt[duckdb,ducklake,filesystem,s3,deltalake]>=1.20.0",
     "pymysql>=1.1.2",
-    "pyspark==3.5.8",
+    "pyspark==4.1.0",
     "pyarrow>=18.0.0",
 ]
 
