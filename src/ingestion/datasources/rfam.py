@@ -2,7 +2,7 @@ import dlt
 from dlt.sources.sql_database import sql_table
 
 
-@dlt.source(name="rfam_data")
+@dlt.source(name="rfam_data", parallelized=True)
 def rfam_datasource():
     creds = dlt.secrets["sources.databases.rfam_database.credentials"]
 
@@ -14,7 +14,10 @@ def rfam_datasource():
             write_disposition="append",
         )
         .parallelize()
-        .apply_hints(table_name="rfam_family", file_format="parquet")
+        .apply_hints(
+            table_name="rfam_family",
+            file_format="preferred",
+        )
     )
 
     clan = (
@@ -25,7 +28,10 @@ def rfam_datasource():
             write_disposition="append",
         )
         .parallelize()
-        .apply_hints(table_name="rfam_clan", file_format="parquet")
+        .apply_hints(
+            table_name="rfam_clan",
+            file_format="preferred",
+        )
     )
 
     clan_membership = (
@@ -36,7 +42,10 @@ def rfam_datasource():
             write_disposition="append",
         )
         .parallelize()
-        .apply_hints(table_name="rfam_clan_membership", file_format="parquet")
+        .apply_hints(
+            table_name="rfam_clan_membership",
+            file_format="preferred",
+        )
     )
 
     full_region = (
@@ -47,7 +56,10 @@ def rfam_datasource():
             write_disposition="append",
         )
         .parallelize()
-        .apply_hints(table_name="rfam_full_region", file_format="parquet")
+        .apply_hints(
+            table_name="rfam_full_region",
+            file_format="preferred",
+        )
     )
 
     taxonomy = (
@@ -60,8 +72,14 @@ def rfam_datasource():
         .parallelize()
         .apply_hints(
             table_name="rfam_taxonomy",
-            file_format="parquet",
+            file_format="preferred",
         )
     )
 
-    return (family, clan, clan_membership, taxonomy)
+    return (
+        family,
+        clan,
+        clan_membership,
+        taxonomy,
+        full_region,
+    )

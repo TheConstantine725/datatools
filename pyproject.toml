@@ -16,7 +16,7 @@ dependencies = [
     "dbt-core>=1.10.15",
     "dbt-duckdb>=1.10.0",
     "python-dotenv>=1.2.1",
-    "dlt[duckdb,ducklake,filesystem,s3,deltalake]>=1.20.0",
+    "dlt[clickhouse,deltalake,duckdb,ducklake,filesystem,s3]>=1.20.0",
     "pymysql>=1.1.2",
     "pyspark==4.1.0",
     "pyarrow>=18.0.0",
