@@ -13,7 +13,7 @@ def clickhouse_pipeline(pipeline_name: str, credential_alias: str = "test"):
         pipelines_dir=DLT_OUTPUT.joinpath("pipeline_dir").as_posix(),
         progress="log",
         destination=clickhouse(**dest_cred),
-        dataset_name="",
+        dataset_name="stg",
     )
 
     return pipeline

@@ -13,13 +13,15 @@ dependencies = [
     "polars>=1.35.2",
     "deltalake",
     "sqlalchemy",
-    "dbt-core>=1.10.15",
+    "dbt-core>=1.11.11",
     "dbt-duckdb>=1.10.0",
     "python-dotenv>=1.2.1",
-    "dlt[clickhouse,deltalake,duckdb,ducklake,filesystem,s3]>=1.20.0",
+    "dlt[clickhouse,deltalake,duckdb,ducklake,filesystem,s3]>=1.27.2",
     "pymysql>=1.1.2",
-    "pyspark==4.1.0",
+    # "pyspark==4.1.0",
     "pyarrow>=18.0.0",
+    "datafusion>=53.0.0",
+    "clickhouse-connect>=1.0.0",
 ]
 
 [project.scripts]
