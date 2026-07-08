@@ -27,14 +27,14 @@ services:
             - clickhouse-data:/var/lib/clickhouse
             - clickhouse-logs:/var/log/clickhouse-server
         environment:
-            CLICKHOUSE_USER: ch_admin
+            CLICKHOUSE_USER: admin
             CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
 
-    metabase:
-        image: metabase/metabase
-        container_name: metabase
-        ports:
-            - "3000:3000"
+    # metabase:
+    #     image: metabase/metabase
+    #     container_name: metabase
+    #     ports:
+    #         - "3000:3000"
 
 volumes:
     clickhouse-data:

@@ -13,7 +13,7 @@ workers=16
 max_parallel_items=16
 
 [sources.data_writer]
-buffer_max_items=4_000_000
+buffer_max_items=100_000
 file_max_bytes=20_000_000
 disable_compression=true
 

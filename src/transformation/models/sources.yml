@@ -8,10 +8,8 @@ sources:
           - name: orders
           - name: nation
 
-    # - name: kaggle_retails
-    #   meta:
-    #     external_location: "s3://datalake/{name}.csv"
-    #   tables:
-    #     - name: sales
-    #     - name: product_hierarchy
-    #     - name: store_cities
+    - name: click_landing
+      database: clickhouse-dev
+      schema: data_landing
+      tables:
+          - name: stg__order_products
