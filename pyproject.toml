@@ -13,16 +13,20 @@ dependencies = [
     "polars>=1.35.2",
     "deltalake",
     "sqlalchemy",
+    "duckdb>=1.5.4",
+    "pandas>=2.3.3",
+    "dlt[clickhouse,duckdb,ducklake,filesystem,s3]>=1.27.2",
     "dbt-core>=1.11.11",
     "dbt-duckdb>=1.10.0",
     "python-dotenv>=1.2.1",
-    "dlt[clickhouse,deltalake,duckdb,ducklake,filesystem,s3]>=1.27.2",
     "pymysql>=1.1.2",
-    # "pyspark==4.1.0",
     "pyarrow>=18.0.0",
     "datafusion>=53.0.0",
     "clickhouse-connect>=1.0.0",
     "dbt-clickhouse>=1.10.0",
+    "dagster>=1.13.12",
+    "dagster-webserver>=1.13.12",
+    "dagster-dg-cli>=1.13.12",
 ]
 
 [project.scripts]
@@ -34,6 +38,6 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "marimo>=0.18.4",
-    "jupyterlab>=4.5.7",
+    # "marimo>=0.18.4",
+    # "jupyterlab>=4.5.7",
 ]
