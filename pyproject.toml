@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "duckdb>=1.5.2",
+    "duckdb>=1.5.4",
     "pandas>=2.3.3",
     "polars>=1.35.2",
     "deltalake",
@@ -25,8 +25,8 @@ dependencies = [
     "clickhouse-connect>=1.0.0",
     "dbt-clickhouse>=1.10.0",
     "dagster>=1.13.12",
-    "dagster-webserver>=1.13.12",
-    "dagster-dg-cli>=1.13.12",
+    "dagster-dlt>=0.29.12",
+    "dagster-dbt>=0.29.12",
 ]
 
 [project.scripts]
@@ -37,7 +37,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    # "marimo>=0.18.4",
-    # "jupyterlab>=4.5.7",
-]
+dev = ["dagster-webserver>=1.13.12",
+    "dagster-dg-cli>=1.13.12"]
+
+[tool.dg]
+directory_type = "project"
+
+[tool.dg.project]
+root_module = "datatools"

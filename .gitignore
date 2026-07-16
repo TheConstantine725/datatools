@@ -17,3 +17,6 @@ wheels/
 # Container Volumes
 docker/docker-volumes
 containers/volumes
+
+# Dagster Dev Data
+.tmp**
