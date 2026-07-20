@@ -3,7 +3,7 @@ services:
         container_name: rustfs
         image: rustfs/rustfs:latest
         volumes:
-            - /mnt/e/docker_volumes/rustfs/data:/data
+            - rustfs-data:/data
         environment:
             RUSTFS_CONSOLE_ENABLE: true
             RUSTFS_ACCESS_KEY: admin
@@ -39,3 +39,4 @@ services:
 volumes:
     clickhouse-data:
     clickhouse-logs:
+    rustfs-data:

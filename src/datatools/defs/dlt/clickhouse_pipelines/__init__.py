@@ -1,7 +1,7 @@
 from dagster import AssetExecutionContext
 from dagster_dlt import DagsterDltResource, dlt_assets
 from .pipe import clickhouse_pipeline
-from .resources.taxi_trips import collect_tpch_datasource
+from .resources.tpch import collect_tpch_datasource
 
 dlt_resource = DagsterDltResource()
 

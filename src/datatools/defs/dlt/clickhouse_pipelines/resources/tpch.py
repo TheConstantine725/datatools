@@ -1,11 +1,13 @@
 import dlt
 import duckdb
 import pendulum
+from pathlib import Path
+import os
 from dlt.destinations.impl.clickhouse.clickhouse_adapter import clickhouse_adapter
 
-DUCKDB_DB = "/mnt/e/.databases/tpch.duckdb"
-
-
+DUCKDB_DB = Path("/mnt/e/.databases/tpch.duckdb")
+if os.name == "nt":
+    DUCKDB_DB = Path("E:/.databases/tpch.duckdb")
 
 @dlt.source(name = "tpch_datasource", parallelized = True)
 def collect_tpch_datasource():
