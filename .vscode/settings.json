@@ -1,10 +1,10 @@
 
 {
     "files.associations": {
-        "**/src/datatools/transformation/models/**/*.sql": "jinja-sql",
-        "**/src/datatools/transformation/**/*.yaml": "jinja-yaml",
-        "**/src/datatools/transformation/**/*.yml": "jinja-yaml",
-        "**/src/datatools/transformation/**/docs/*.md": "jinja-md",
+        "**/dbt/**/models/**/*.sql": "jinja-sql",
+        "**/dbt/**/models/**/*.yaml": "jinja-yaml",
+        "**/dbt/**/models/**/*.yml": "jinja-yaml",
+        "**/dbt/**/models/**/**/docs/*.md": "jinja-md",
         "**/.dbt/**.yml":"jinja-yaml"
     }
 }

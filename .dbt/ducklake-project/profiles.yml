@@ -1,0 +1,52 @@
+transformation:
+    target: clickhouse-dev
+    outputs:
+      tpch-dev:
+          type: duckdb
+          schema: analytics
+          threads: 8
+          extensions:
+              - httpfs
+              - parquet
+              - ducklake
+              - postgres
+          secrets:
+              - type: postgres
+                name: catalogs
+                host: "127.0.0.1"
+                port: 5432
+                user: admin
+                password: admin
+                database: ducklake
+              - type: ducklake
+                name: test_ducklake_secret
+                metadata_path: ""
+                metadata_schema: "test_ducklake"
+                data_path: "s3://test-ducklake/v1" #
+                metadata_parameters:
+                    type: postgres
+                    secret: catalogs
+              - type: ducklake
+                name: ingestion_ducklake_secret
+                metadata_path: ""
+                metadata_schema: "ingestion_ducklake"
+                data_path: "s3://ingestion-ducklake/v1"
+                metadata_parameters:
+                    type: postgres
+                    secret: catalogs
+          attach:
+              - path: "ducklake:test_ducklake_secret"
+                alias: test_ducklake
+                is_ducklake: true
+              - path: "ducklake:ingestion_ducklake_secret"
+                alias: ingestion_ducklake
+                is_ducklake: true
+              - path: "duckdb:/mnt/d/.data/databases/tpch.duckdb"
+                alias: tpch
+          database: test_ducklake
+          settings:
+              s3_endpoint: "127.0.0.1:9000"
+              s3_access_key_id: minioadmin
+              s3_secret_access_key: minioadmin
+              s3_use_ssl: false
+              s3_url_style: "path"
