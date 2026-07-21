@@ -5,6 +5,7 @@ from dlt.destinations.adapters import clickhouse_adapter
 
 DUCKDB_TPCH = "/mnt/e/.databases/tpch_30.duckdb"
 
+
 @dlt.resource(
     name="lineitem",
     primary_key=["l_orderkey", "l_partkey", "l_suppkey", "l_linenumber"],
@@ -26,7 +27,6 @@ res_line_item = clickhouse_adapter(
     table_engine_type="replacing_merge_tree",
     settings={"clean_deleted_rows": "Always"},
 )
-
 
 
 @dlt.resource(

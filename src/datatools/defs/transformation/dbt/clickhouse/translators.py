@@ -2,6 +2,7 @@ from dagster_dbt import DagsterDbtTranslator, DagsterDbtTranslatorSettings
 from dagster import AssetKey
 from typing import Mapping, Any
 
+
 class TpchDagsterDbtTranslator(DagsterDbtTranslator):
     def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> AssetKey:
         if dbt_resource_props["resource_type"] == "source":

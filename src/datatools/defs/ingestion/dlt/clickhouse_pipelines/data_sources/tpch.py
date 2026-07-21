@@ -9,17 +9,19 @@ DUCKDB_DB = Path("/mnt/e/.databases/tpch.duckdb")
 if os.name == "nt":
     DUCKDB_DB = Path("E:/.databases/tpch.duckdb")
 
-@dlt.source(name = "tpch_datasource", parallelized = True)
+
+@dlt.source(name="tpch_datasource", parallelized=True)
 def collect_tpch_datasource():
 
-    @dlt.resource(name = "line_items",
-        table_name = "line_items",
+    @dlt.resource(
+        name="line_items",
+        table_name="line_items",
         write_disposition="append",
-        primary_key = ["l_orderkey", "l_linenumber"],
+        primary_key=["l_orderkey", "l_linenumber"],
         file_format="parquet",
         schema_contract="evolve",
-        columns = {"_extraction_timestamp":{"dedup_sort":"desc","nullable":False}},
-        parallelized = True,
+        columns={"_extraction_timestamp": {"dedup_sort": "desc", "nullable": False}},
+        parallelized=True,
     )
     def collect_line_items():
         with duckdb.connect(DUCKDB_DB) as duck:
@@ -32,14 +34,14 @@ def collect_tpch_datasource():
             for batch in query.to_arrow_reader(50_000):
                 yield batch
 
-
-    @dlt.resource(name = "customers",
-        table_name = "customers",
-        primary_key = ["c_custkey"],
+    @dlt.resource(
+        name="customers",
+        table_name="customers",
+        primary_key=["c_custkey"],
         file_format="parquet",
         schema_contract="evolve",
-        columns = {"_extraction_timestamp":{"dedup_sort":"desc","nullable":False}},
-        parallelized = True,
+        columns={"_extraction_timestamp": {"dedup_sort": "desc", "nullable": False}},
+        parallelized=True,
     )
     def collect_customers():
         with duckdb.connect(DUCKDB_DB) as duck:
@@ -52,13 +54,14 @@ def collect_tpch_datasource():
             for batch in query.to_arrow_reader(50_000):
                 yield batch
 
-    @dlt.resource(name = "nation",
-        table_name = "nation",
-        primary_key = ["n_nationkey"],
+    @dlt.resource(
+        name="nation",
+        table_name="nation",
+        primary_key=["n_nationkey"],
         file_format="parquet",
         schema_contract="evolve",
-        columns = {"_extraction_timestamp":{"dedup_sort":"desc","nullable":False}},
-        parallelized = True,
+        columns={"_extraction_timestamp": {"dedup_sort": "desc", "nullable": False}},
+        parallelized=True,
     )
     def collect_nation():
         with duckdb.connect(DUCKDB_DB) as duck:
@@ -71,14 +74,14 @@ def collect_tpch_datasource():
             for batch in query.to_arrow_reader(50_000):
                 yield batch
 
-
-    @dlt.resource(name = "orders",
-        table_name = "orders",
-        primary_key = ["o_orderkey", "o_custkey"],
-        file_format = "parquet",
-        schema_contract= "evolve",
-        columns = {"_extraction_timestamp":{"dedup_sort":"desc","nullable":False}},
-        parallelized = True,
+    @dlt.resource(
+        name="orders",
+        table_name="orders",
+        primary_key=["o_orderkey", "o_custkey"],
+        file_format="parquet",
+        schema_contract="evolve",
+        columns={"_extraction_timestamp": {"dedup_sort": "desc", "nullable": False}},
+        parallelized=True,
     )
     def collect_orders():
         with duckdb.connect(DUCKDB_DB) as duck:
@@ -97,6 +100,5 @@ def collect_tpch_datasource():
         partition="toYYYYMM(l_shipdate)",
         # sort= "_extraction_timestamp"
     )
-
 
     return (line_items, collect_customers(), collect_orders(), collect_nation())
