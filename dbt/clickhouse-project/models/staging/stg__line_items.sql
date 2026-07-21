@@ -1,7 +1,5 @@
 {{
-    config(materialized = "materialized_view",
-    engine = "SummingMergeTree()",
-    order_by = "(shipping_year, shipping_month)")
+    config(materialized = "view")
 }}
 
 
@@ -26,29 +24,7 @@ with import_data as (
     l_shipmode as shipping_mode,
     l_comment as additional_comments,
     _extraction_timestamp
-    from data_landing.tpch_line_items
-),
-create_additional_columns as (select
-YEAR(shipping_date) as shipping_year,
-MONTH(shipping_date) as shipping_month,
-net_billed_value,
-billed_quantity,
-part_key,
-supplier_key,
-shipping_mode
-from import_data)
-
-select
-    shipping_year,
-    shipping_month,
-    part_key,
-    supplier_key,
-    shipping_mode,
-    sum(net_billed_value) as total_net_billed_value,
-    sum(billed_quantity) as total_billed_quantity
-from create_additional_columns
-group by shipping_year,
-    shipping_month,
-    part_key,
-    supplier_key,
-    shipping_mode
+    from {{source("tpch","line_items")}}
+)
+select *
+from import_data
