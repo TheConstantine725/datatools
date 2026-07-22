@@ -28,6 +28,7 @@ dependencies = [
     "dagster-dlt>=0.29.12",
     "dagster-dbt>=0.29.12",
     "pyarrow-stubs>=20.0.0.20260625",
+    "dagster-clickhouse>=0.29.12",
 ]
 
 [project.scripts]

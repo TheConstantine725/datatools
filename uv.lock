@@ -431,7 +431,7 @@ name = "cffi"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pycparser", marker = "(implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')" },
+    { name = "pycparser", marker = "implementation_name != 'PyPy'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/eb/56/b1ba7935a17738ae8453301356628e8147c79dbb825bcbc73dc7401f9846/cffi-2.0.0.tar.gz", hash = "sha256:44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529", size = 523588, upload-time = "2025-09-08T23:24:04.541Z" }
 wheels = [
@@ -841,6 +841,19 @@ wheels = [
 ]
 
 [[package]]
+name = "dagster-clickhouse"
+version = "0.29.12"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "clickhouse-driver" },
+    { name = "dagster" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e5/27/d23b712a468af6c0bb629e2f6a48dbceaedc0729920cbc7bea9b72413bc7/dagster_clickhouse-0.29.12.tar.gz", hash = "sha256:6fd588d7c03150c85a7e25d3023bbb63898d04aba5975129bb950155b30966d8", size = 152007, upload-time = "2026-07-02T15:59:49.729Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8f/dc/5cfa273b5d2189a2db41fb419102ada5c7464171dda6befbae68765726e3/dagster_clickhouse-0.29.12-py3-none-any.whl", hash = "sha256:0081db62322d3125ae839521f835f002260279558e5bf2d507f84c17e333d567", size = 8692, upload-time = "2026-07-02T15:59:48.775Z" },
+]
+
+[[package]]
 name = "dagster-cloud-cli"
 version = "1.13.12"
 source = { registry = "https://pypi.org/simple" }
@@ -1039,6 +1052,7 @@ source = { editable = "." }
 dependencies = [
     { name = "clickhouse-connect" },
     { name = "dagster" },
+    { name = "dagster-clickhouse" },
     { name = "dagster-dbt" },
     { name = "dagster-dlt" },
     { name = "datafusion" },
@@ -1067,6 +1081,7 @@ dev = [
 requires-dist = [
     { name = "clickhouse-connect", specifier = ">=1.0.0" },
     { name = "dagster", specifier = ">=1.13.12" },
+    { name = "dagster-clickhouse", specifier = ">=0.29.12" },
     { name = "dagster-dbt", specifier = ">=0.29.12" },
     { name = "dagster-dlt", specifier = ">=0.29.12" },
     { name = "datafusion", specifier = ">=53.0.0" },
