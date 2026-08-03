@@ -10,4 +10,4 @@ create database if not exists data_landing;
             """)
         context.log.info("Creating database for dlt's data_landing")
 
-CLICKHOUSE_RESOURCE = ClickhouseResource(database = "default",host="localhost", port = 9002, user = "admin",)
+CLICKHOUSE_RESOURCE = ClickhouseResource(database = "default",host="localhost", port = 9000, user = "admin", password = "admin")

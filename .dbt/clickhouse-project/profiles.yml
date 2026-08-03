@@ -7,5 +7,5 @@ transformation:
           host: localhost
           port: 8123
           user: admin
-          password: ""
+          password: admin
           secure: False
