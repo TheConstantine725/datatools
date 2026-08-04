@@ -8,12 +8,12 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "duckdb>=1.5.4",
+    "duckdb>=1.5.5",
     "pandas>=2.3.3",
-    "polars>=1.35.2",
+    # "polars>=1.35.2",
     "deltalake",
     "sqlalchemy",
-    "duckdb>=1.5.4",
+    "duckdb>=1.5",
     "pandas>=2.3.3",
     "dlt[clickhouse,duckdb,ducklake,filesystem,s3]>=1.27.2",
     "dbt-core>=1.11.11",
