@@ -16,7 +16,7 @@ def collect_tpch_datasource():
     @dlt.resource(
         name="line_items",
         table_name="line_items",
-        write_disposition="merge",
+        write_disposition="append",
         primary_key=["l_orderkey", "l_linenumber"],
         file_format="parquet",
         schema_contract="evolve",

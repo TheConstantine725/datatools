@@ -1,7 +1,7 @@
 from pathlib import Path
 from dagster import AssetExecutionContext
 from dagster_dbt import dbt_assets, DbtCliResource
-from .resources import CLICKHOUSE_DBT_RESOURCE, CLICKHOUSE_DBT_PROJECT
+from .resources import  CLICKHOUSE_DBT_PROJECT
 from .translators import TpchDagsterDbtTranslator, custom_dbt_translator
 
 
@@ -10,11 +10,11 @@ from .translators import TpchDagsterDbtTranslator, custom_dbt_translator
     project=CLICKHOUSE_DBT_PROJECT,
     dagster_dbt_translator=custom_dbt_translator(
         "tpch",
-        group_name="clickhouse_dbt_tpch",
+        group_name="clickhouse_elt",
     ),
     name="tpch_dbt",
 )
 def clickhouse_dbt_transformation(
-    context: AssetExecutionContext, ch_dbt: DbtCliResource = CLICKHOUSE_DBT_RESOURCE
+    context: AssetExecutionContext, ch_dbt: DbtCliResource
 ):
     yield from ch_dbt.cli(["build"], context=context).stream()

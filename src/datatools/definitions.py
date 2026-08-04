@@ -9,6 +9,8 @@ from .defs.ingestion.dlt.clickhouse_pipelines.resources import DAGSTER_DLT_RESOU
 from .defs.transformation.dbt.clickhouse import assets as clickhouse_dbt_assets
 from .defs.admin_assets import CLICKHOUSE_RESOURCE
 from .defs import admin_assets
+from .defs.jobs import clickhouse_elt_job
+from .defs.schedules import clickhouse_elt_schedule
 
 clickhouse_admin_assets = load_assets_from_modules([admin_assets])
 clickhouse_ingestion_assets = load_assets_from_modules([clickhouse_dlt_assets])
@@ -18,4 +20,6 @@ clickhouse_transformation_assets = load_assets_from_modules([clickhouse_dbt_asse
 defs = Definitions(
     assets=[*clickhouse_ingestion_assets, *clickhouse_transformation_assets, *clickhouse_admin_assets],
     resources={"dlt": DAGSTER_DLT_RESOURCE, "ch_dbt": CLICKHOUSE_DBT_RESOURCE, "clickhouse": CLICKHOUSE_RESOURCE},
+    jobs = [clickhouse_elt_job],
+    schedules=[clickhouse_elt_schedule],
 )
