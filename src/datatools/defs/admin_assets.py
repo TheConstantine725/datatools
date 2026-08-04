@@ -2,7 +2,7 @@ from dagster_clickhouse import ClickhouseResource
 from dagster import asset, AssetExecutionContext
 
 
-@asset(name = "initialize_clickhouse", group_name="clickhouse_elt", kinds={"clickhouse"})
+@asset(name = "initialize_clickhouse",  kinds={"clickhouse"})
 def initialize_clickhouse(context: AssetExecutionContext, clickhouse: ClickhouseResource):
     with clickhouse.get_connection() as conn:
         conn.execute(query = """

@@ -10,7 +10,7 @@ class TpchDagsterDbtTranslator(DagsterDbtTranslator):
         return super().get_asset_key(dbt_resource_props)
 
 
-def custom_dbt_translator(asset_key_prefix: str, group_name: str):
+def custom_dbt_translator(asset_key_prefix: str, group_name: str ):
 
     class _InternalDagsterDbtTranslator(DagsterDbtTranslator):
         def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> AssetKey:

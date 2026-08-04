@@ -16,7 +16,7 @@ CLICKHOUSE_INGESTION_GROUP = "clickhouse_ingestion"
     name="tpch_ingestion",
     dagster_dlt_translator=callable_dlt_translator(key_prefix="tpch",
         deps = [AssetKey("initialize_clickhouse")],
-        group_name="clickhouse_elt",),
+        ),
 )
 def tpch_ingestion(
     context: AssetExecutionContext, dlt: DagsterDltResource = DAGSTER_DLT_RESOURCE
