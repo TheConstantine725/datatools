@@ -10,7 +10,7 @@ from .translators import TpchDagsterDbtTranslator, custom_dbt_translator
     project=CLICKHOUSE_DBT_PROJECT,
     dagster_dbt_translator=custom_dbt_translator(
         "tpch",
-        group_name="clickhouse_elt",
+        group_name="clickhouse_tranformation_staging",
     ),
     name="tpch_dbt",
 )
