@@ -17,7 +17,9 @@ def callable_dlt_translator(
     class _InnerDagsterDltTranslator(DagsterDltTranslator):
         def get_asset_spec(self, data: DltResourceTranslatorData) -> AssetSpec:
             base_spec = super().get_asset_spec(data)
-            replaced: dict[str, Any] = {"key": AssetKey([key_prefix, str(data.resource.name)])}
+            replaced: dict[str, Any] = {
+                "key": AssetKey([key_prefix, str(data.resource.name)])
+            }
 
             if group_name:
                 replaced["group_name"] = group_name

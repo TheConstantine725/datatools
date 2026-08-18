@@ -1,7 +1,7 @@
 from pathlib import Path
 from dagster import AssetExecutionContext
 from dagster_dbt import dbt_assets, DbtCliResource
-from .resources import  CLICKHOUSE_DBT_PROJECT
+from .resources import CLICKHOUSE_DBT_PROJECT
 from .translators import TpchDagsterDbtTranslator, custom_dbt_translator
 
 
