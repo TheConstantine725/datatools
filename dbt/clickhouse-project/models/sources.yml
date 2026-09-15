@@ -1,0 +1,12 @@
+sources:
+  - name: tpch
+    schema: data_landing
+    tables:
+      - name: line_items
+        identifier: tpch__line_items
+      - name: nation
+        identifier:  tpch__nation
+      - name: orders
+        identifier: tpch__orders
+      - name: customers
+        identifier: tpch__customers

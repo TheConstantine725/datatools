@@ -1,0 +1,67 @@
+services:
+  rustfs:
+      container_name: rustfs
+      image: rustfs/rustfs:1.0.0-beta.12-glibc
+      volumes:
+          - rustfs-data:/data
+      environment:
+          RUSTFS_CONSOLE_ENABLE: true
+          RUSTFS_ACCESS_KEY: admin
+          RUSTFS_SECRET_KEY: admin
+      ports:
+          - "9100:9000" # API port
+          - "9101:9001" # Console/Web UI port
+      command: /data
+
+  clickhouse-server:
+      image: clickhouse/clickhouse-server:26.7
+      container_name: clickhouse
+      ports:
+          - "8123:8123"
+          - "9000:9000"
+      ulimits:
+          nofile:
+              soft: 262144
+              hard: 262144
+      volumes:
+          - clickhouse-data:/var/lib/clickhouse
+          - clickhouse-logs:/var/log/clickhouse-server
+      environment:
+          CLICKHOUSE_USER: admin
+          CLICKHOUSE_PASSWORD: admin
+          CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+
+  postgres:
+    container_name: "postgres"
+    hostname: postgres
+    image: postgres:18.4-alpine3.24
+    environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: postgres
+    ports:
+        - "5432:5432"
+    volumes:
+        - postgres-data:/var/lib/postgresql
+        - ./postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+  metabase:
+      image: metabase/metabase:v0.63.2.7
+      container_name: metabase
+      restart: unless-stopped
+      depends_on:
+        - postgres
+      environment:
+        MB_DB_TYPE: postgres
+        MB_DB_HOST: postgres
+        MB_DB_DBNAME: metabase
+        MB_DB_USER: admin
+        MB_DB_PASS: admin
+        MB_DB_PORT: 5432
+      ports:
+        - "3000:3000"
+
+volumes:
+  clickhouse-data:
+  clickhouse-logs:
+  rustfs-data:
+  postgres-data:

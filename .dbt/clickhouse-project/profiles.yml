@@ -1,0 +1,11 @@
+transformation:
+    target: clickhouse-dev
+    outputs:
+      clickhouse-dev:
+          type: clickhouse
+          schema: analytics
+          host: localhost
+          port: 8123
+          user: admin
+          password: admin
+          secure: False

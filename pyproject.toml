@@ -8,32 +8,42 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "duckdb>=1.5.2",
+    "duckdb>=1.5.5",
     "pandas>=2.3.3",
-    "polars>=1.35.2",
-    "pyarrow<=18.0.0",
+    # "polars>=1.35.2",
     "deltalake",
     "sqlalchemy",
-    "dbt-core>=1.10.15",
+    "duckdb>=1.5",
+    "pandas>=2.3.3",
+    "dlt[clickhouse,duckdb,ducklake,filesystem,s3]>=1.27.2",
+    "dbt-core>=1.11.11",
     "dbt-duckdb>=1.10.0",
     "python-dotenv>=1.2.1",
-    "dlt[duckdb,ducklake,s3]>=1.20.0",
     "pymysql>=1.1.2",
-    # "dagster>=1.12.15",
-    # "dagster-webserver>=1.12.15",
-    # "dagster-dg-cli>=1.12.15",
-    "marimo>=0.22.0",
+    "pyarrow>=18.0.0",
+    "datafusion>=53.0.0",
+    "clickhouse-connect>=1.0.0",
+    "dbt-clickhouse>=1.10.0",
+    "dagster>=1.13.12",
+    "dagster-dlt>=0.29.12",
+    "dagster-dbt>=0.29.12",
+    "pyarrow-stubs>=20.0.0.20260625",
+    "dagster-clickhouse>=0.29.12",
 ]
 
 [project.scripts]
 datatools = "datatools:main"
-delta-ingest = "delta_ingest:hello"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "marimo>=0.18.4",
-]
+dev = ["dagster-webserver>=1.13.12",
+    "dagster-dg-cli>=1.13.12"]
+
+[tool.dg]
+directory_type = "project"
+
+[tool.dg.project]
+root_module = "datatools"

@@ -9,12 +9,12 @@ dlthub_telemetry = false
 # table = "view" # please set me up!
 
 [extract]
-workers=16
-max_parallel_items=16
+workers=8
+max_parallel_items=8
 
 [sources.data_writer]
-buffer_max_items=4_000_000
-file_max_bytes=20_000_000
+buffer_max_items=100_000
+file_max_bytes=5_000_000
 disable_compression=true
 
 # [data_writer]
@@ -28,13 +28,13 @@ workers=3
 # start_method="spawn"
 
 [normalize.data_writer]
-buffer_max_items=10_000_000
-file_max_bytes=128_000_000
+buffer_max_items=1_000_000
+file_max_bytes=30_000_000
 # disable_compression=true
 
 
 [load]
-workers=24
+workers=12
 delete_completed_jobs=true
 truncate_staging_dataset=true
 

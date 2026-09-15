@@ -1,0 +1,15 @@
+sources:
+    - name: tpch
+      database: tpch
+      schema: main
+      tables:
+          - name: customer
+          - name: lineitems
+          - name: orders
+          - name: nation
+
+    - name: click_landing
+      database: clickhouse-dev
+      schema: data_landing
+      tables:
+          - name: stg__order_products
