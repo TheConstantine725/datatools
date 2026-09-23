@@ -27,7 +27,6 @@ dependencies = [
     "dagster>=1.13.12",
     "dagster-dlt>=0.29.12",
     "dagster-dbt>=0.29.12",
-    "pyarrow-stubs>=20.0.0.20260625",
     "dagster-clickhouse>=0.29.12",
 ]
 
@@ -40,6 +39,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = ["dagster-webserver>=1.13.12",
+    "pyarrow-stubs>=20.0.0.20260625",
     "dagster-dg-cli>=1.13.12"]
 
 [tool.dg]
