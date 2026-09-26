@@ -1,3 +1,5 @@
 .venv
 .vscode
 .archive
+.ruff_cache
+docker
