@@ -1,0 +1,156 @@
+services:
+  rustfs:
+      container_name: rustfs
+      image: rustfs/rustfs:1.0.0-glibc
+      volumes:
+          - rustfs-data:/data
+      environment:
+          RUSTFS_CONSOLE_ENABLE: true
+          RUSTFS_ACCESS_KEY: admin
+          RUSTFS_SECRET_KEY: admin
+      ports:
+          - "9100:9000" # API port
+          - "9101:9001" # Console/Web UI port
+      command: /data
+      networks:
+        - dagster_network
+
+  clickhouse-server:
+      image: clickhouse/clickhouse-server:26.8
+      container_name: clickhouse
+      hostname: clickhouse
+      ports:
+          - "8123:8123"
+          - "9000:9000"
+      ulimits:
+          nofile:
+              soft: 262144
+              hard: 262144
+      volumes:
+          - clickhouse-data:/var/lib/clickhouse
+          - clickhouse-logs:/var/log/clickhouse-server
+      environment:
+          CLICKHOUSE_USER: admin
+          CLICKHOUSE_PASSWORD: admin
+          CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      networks:
+        - dagster_network
+
+  postgres:
+    container_name: "postgres"
+    hostname: postgres
+    image: postgres:18.4-alpine3.24
+    environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: dagster
+    ports:
+        - "5432:5432"
+    volumes:
+        - postgres-data:/var/lib/postgresql
+    networks:
+      - dagster_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U admin -d dagster"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  dagster_code_location:
+    build:
+      context: .
+      dockerfile: CodeLocation.Dockerfile
+    image: datatools_code_location:latest
+    container_name: datatools_code_location
+    hostname: datatools_code_location
+    environment:
+      DAGSTER_CURRENT_IMAGE: "datatools_code_location:latest"
+      DAGSTER_POSTGRES_USER: admin
+      DAGSTER_POSTGRES_PASSWORD: admin
+      DAGSTER_POSTGRES_DB: dagster
+      DAGSTER_POSTGRES_HOST: postgres
+    networks:
+      - dagster_network
+    expose:
+      - "4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+#
+  # --- Webserver (Dagit UI) ---
+  dagster_webserver:
+    build:
+      context: .
+      dockerfile: Dagster.Dockerfile
+    image: dagster_webserver:latest
+    container_name: dagster_webserver
+    restart: no
+    entrypoint:
+      - dagster-webserver
+      - -h
+      - "0.0.0.0"
+      - -p
+      - "3000"
+      - --workspace
+      - "workspace.yaml"
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    # volumes:
+    #   - dagster_home:/opt/dagster/dagster_home
+    environment:
+      DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_POSTGRES_USER: admin
+      DAGSTER_POSTGRES_PASSWORD: admin
+      DAGSTER_POSTGRES_DB: dagster
+      DAGSTER_POSTGRES_HOST: postgres
+    networks:
+      - dagster_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dagster_code_location:
+        condition: service_started
+#
+# --- Daemon (schedules, sensors, run queue) ---
+  dagster_daemon:
+    build:
+      context: .
+      dockerfile: Dagster.Dockerfile
+    image: dagster_daemon:latest
+    container_name: dagster_daemon
+    restart: no
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - dagster_home:/opt/dagster/dagster_home
+    environment:
+      DAGSTER_HOME: /opt/dagster/dagster_home
+      DAGSTER_POSTGRES_USER: admin
+      DAGSTER_POSTGRES_PASSWORD: admin
+      DAGSTER_POSTGRES_DB: dagster
+      DAGSTER_POSTGRES_HOST: postgres
+    command:
+      - dagster-daemon
+      - run
+      - -w
+      - workspace.yaml
+    networks:
+      - dagster_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dagster_code_location:
+        condition: service_started
+
+volumes:
+  clickhouse-data:
+  clickhouse-logs:
+  rustfs-data:
+  postgres-data:
+  dagster_home:
+
+networks:
+  dagster_network:
+    driver: bridge
