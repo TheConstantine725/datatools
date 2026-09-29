@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim AS builder
 
 ENV UV_COMPILE_BYTECODE=1\
     UV_LINK_MODE=copy\
@@ -6,27 +6,15 @@ ENV UV_COMPILE_BYTECODE=1\
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock ./
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync  --frozen --no-install-project --no-dev
-
 COPY . .
+
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project --no-dev
+    uv sync  --frozen --no-dev
 
-FROM python:3.11-slim-bookworm AS runtime
-
-WORKDIR /app
-
-COPY --from=builder /app /app
-
-ENV PATH="/app/.venv/bin:$PATH"\
-    PYTHONBUFFERED=1\
-    DAGSTER_HOME=/opt/dagster/home
-
-RUN mkdir -p $DAGSTER_HOME
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 4000
 
-CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "datatools.definitions"]
+HEALTHCHECK --timeout=1s --start-period=3s --interval=3s --retries=20 CMD ["uv", "run", "dagster", "api", "grpc-health-check", "-p", "4000"]
+
+CMD ["uv", "run", "dagster", "code-server", "start", "-h", "0.0.0.0", "-p", "4000", "-m", "datatools.definitions"]

@@ -16,5 +16,5 @@ create database if not exists data_landing;
 
 
 CLICKHOUSE_RESOURCE = ClickhouseResource(
-    database="default", host="localhost", port=9000, user="admin", password="admin"
+    database="default", host="clickhouse", port=9000, user="admin", password="admin"
 )
