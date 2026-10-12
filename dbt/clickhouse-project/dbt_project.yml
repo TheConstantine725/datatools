@@ -33,13 +33,10 @@ models:
       staging:
           +schema: staging
           +materialized: view
-      warehouse:
+      intermediate:
           +schema: warehouse
           +materialized: table
-      ephemeral:
-        +schema: temp
-        materialized: ephemeral
       marts:
-        materialized: table
+        +materialized: table
         crm:
           +schema: crm
